@@ -1,0 +1,76 @@
+:root {
+  --primary: #ff6b35;
+  --dark: #1f2937;
+  --bg: #fafafa;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.auth-page {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.auth-page h1 {
+  font-size: 1.4rem;
+  color: var(--dark);
+  margin-bottom: 24px;
+}
+
+.auth-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-page label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.auth-page input,
+.auth-page select {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auth-page button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-page button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+
+.dashboard {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
