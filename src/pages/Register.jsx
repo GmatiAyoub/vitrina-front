@@ -24,20 +24,20 @@ export default function Register() {
   }
 
   return (
-    <div className="auth-page">
-      <h1>Créer un compte Vitrina</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <div className="max-w-sm mx-auto mt-16 p-8 bg-white rounded-xl shadow-md">
+      <h1 className="text-xl font-semibold text-gray-800 mb-6">Créer un compte Vitrina</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <label className="flex flex-col gap-1.5 text-sm text-gray-700">
           Email
           <input
             type="email"
             required
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
+            className="px-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </label>
-
-        <label>
+        <label className="flex flex-col gap-1.5 text-sm text-gray-700">
           Mot de passe (8 caractères minimum)
           <input
             type="password"
@@ -45,28 +45,34 @@ export default function Register() {
             minLength={8}
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
+            className="px-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </label>
-
-        <label>
+        <label className="flex flex-col gap-1.5 text-sm text-gray-700">
           Je suis
           <select
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
+            className="px-3 py-2.5 border border-gray-300 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-primary bg-white"
           >
             <option value="client">Client</option>
             <option value="commercant">Commerçant</option>
           </select>
         </label>
-
-        {error && <p className="error">{error}</p>}
-
-        <button type="submit" disabled={loading}>
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-primary hover:bg-primary-dark text-white py-3 rounded-lg font-semibold disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+        >
           {loading ? 'Création...' : "S'inscrire"}
         </button>
       </form>
-      <p>
-        Déjà un compte ? <Link to="/login">Se connecter</Link>
+      <p className="text-sm text-gray-600 mt-4">
+        Déjà un compte ?{' '}
+        <Link to="/login" className="text-primary font-medium">
+          Se connecter
+        </Link>
       </p>
     </div>
   );
