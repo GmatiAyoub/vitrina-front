@@ -12,17 +12,29 @@ export default function Dashboard() {
       <h1 className="text-xl font-semibold text-gray-800 mb-4">Bienvenue sur Vitrina</h1>
       <p className="text-gray-600">Email : {user.email}</p>
       <p className="text-gray-600 mb-4">Rôle : {user.role}</p>
+
+      <div className="flex flex-col gap-2 mb-4">
+        <Link to="/recherche" className="text-primary font-medium">
+          🔍 Aller à la recherche
+        </Link>
+        {user.role === 'client' && (
+          <Link to="/favoris" className="text-primary font-medium">
+            ★ Mes favoris
+          </Link>
+        )}
+        {user.role === 'admin' && (
+          <Link to="/admin" className="text-primary font-medium">
+            ⚙️ Panneau d'administration
+          </Link>
+        )}
+      </div>
+
       <button
         onClick={logout}
         className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-colors"
       >
         Se déconnecter
       </button>
-      <p className="mt-4">
-        <Link to="/recherche" className="text-primary font-medium">
-          Aller à la recherche
-        </Link>
-      </p>
     </div>
   );
 }
