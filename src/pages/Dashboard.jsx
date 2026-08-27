@@ -22,6 +22,16 @@ export default function Dashboard() {
             ★ Mes favoris
           </Link>
         )}
+        {user.role === 'commercant' && (
+          <>
+            <Link to="/mon-commerce" className="text-primary font-medium">
+              🏬 Mon commerce
+            </Link>
+            <Link to="/mes-produits" className="text-primary font-medium">
+              📦 Mes produits
+            </Link>
+          </>
+        )}
         {user.role === 'admin' && (
           <Link to="/admin" className="text-primary font-medium">
             ⚙️ Panneau d'administration
