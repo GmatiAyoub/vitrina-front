@@ -4,21 +4,46 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-
+import SearchPage from './pages/SearchPage';
+import CommerceDetailPage from './pages/CommerceDetailPage';
+import FavoritesPage from './pages/FavoritesPage';
+import AdminPage from './pages/AdminPage';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Navigate to="/recherche" replace />} />
+
+          <Route path="/recherche" element={<SearchPage />} />
+          <Route path="/commerces/:id" element={<CommerceDetailPage />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/favoris"
+            element={
+              <ProtectedRoute allowedRoles={['client']}>
+                <FavoritesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminPage />
               </ProtectedRoute>
             }
           />
