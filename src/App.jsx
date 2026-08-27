@@ -8,6 +8,8 @@ import SearchPage from './pages/SearchPage';
 import CommerceDetailPage from './pages/CommerceDetailPage';
 import FavoritesPage from './pages/FavoritesPage';
 import AdminPage from './pages/AdminPage';
+import CommerceProfilePage from './pages/CommerceProfilePage';
+import MyProductsPage from './pages/MyProductsPage';
 
 function App() {
   return (
@@ -44,6 +46,22 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mon-commerce"
+            element={
+              <ProtectedRoute allowedRoles={['commercant']}>
+                <CommerceProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mes-produits"
+            element={
+              <ProtectedRoute allowedRoles={['commercant']}>
+                <MyProductsPage />
               </ProtectedRoute>
             }
           />
