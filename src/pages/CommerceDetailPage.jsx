@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
-import 'leaflet/dist/leaflet.css';
 
 export default function CommerceDetailPage() {
   const { id } = useParams();
@@ -56,13 +54,18 @@ export default function CommerceDetailPage() {
   if (erreur && !commerce) return <p className="text-center text-red-600 mt-16">{erreur}</p>;
   if (!commerce) return null;
 
+  const lienGoogleMaps =
+    commerce.latitude && commerce.longitude
+      ? `https://www.google.com/maps/search/?api=1&query=${commerce.latitude},${commerce.longitude}`
+      : null;
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <Link to="/recherche" className="inline-block mb-4 text-primary text-sm">
         ← Retour à la recherche
       </Link>
 
-      <div className="flex gap-5 items-start mb-5">
+      <div className="flex gap-5 items-start mb-6">
         {commerce.photo && (
           <img
             src={`http://localhost:4000${commerce.photo}`}
@@ -72,14 +75,24 @@ export default function CommerceDetailPage() {
         )}
         <div>
           <h1 className="text-2xl font-semibold text-gray-800 mb-2">{commerce.nom}</h1>
-          <p className="text-sm text-gray-600">{commerce.adresse}</p>
+          <p className="text-sm text-gray-600">📍 {commerce.adresse}</p>
           <p className="text-sm text-gray-600">📞 {commerce.telephone}</p>
           <p className="text-sm text-gray-600">🕒 {commerce.horaires}</p>
+          {lienGoogleMaps && (
+            <a
+              href={lienGoogleMaps}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-sm text-primary font-medium mt-1"
+            >
+              Voir l'itinéraire →
+            </a>
+          )}
           {user?.role === 'client' && (
             <button
               onClick={toggleFavori}
               disabled={favoriEnCours}
-              className={`mt-3 text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors ${
+              className={`block mt-3 text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors ${
                 estFavori
                   ? 'bg-primary text-white border-primary'
                   : 'bg-white text-primary border-primary'
@@ -91,24 +104,6 @@ export default function CommerceDetailPage() {
           {erreur && <p className="text-red-600 text-xs mt-2">{erreur}</p>}
         </div>
       </div>
-
-      {commerce.latitude && commerce.longitude && (
-        <div className="rounded-xl overflow-hidden mb-6">
-          <MapContainer
-            center={[parseFloat(commerce.latitude), parseFloat(commerce.longitude)]}
-            zoom={15}
-            style={{ height: '250px', width: '100%' }}
-          >
-            <TileLayer
-              attribution="&copy; OpenStreetMap contributors"
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={[parseFloat(commerce.latitude), parseFloat(commerce.longitude)]}>
-              <Popup>{commerce.nom}</Popup>
-            </Marker>
-          </MapContainer>
-        </div>
-      )}
 
       <h2 className="text-lg font-semibold text-gray-800 mb-3">Catalogue</h2>
       {(!commerce.Produits || commerce.Produits.length === 0) && (
