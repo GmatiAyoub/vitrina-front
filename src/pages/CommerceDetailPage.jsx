@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import api from '../api/axios';
+import { useAuth } from '../context/AuthContext';
 import 'leaflet/dist/leaflet.css';
 
 export default function CommerceDetailPage() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [commerce, setCommerce] = useState(null);
   const [loading, setLoading] = useState(true);
   const [erreur, setErreur] = useState('');
+  const [estFavori, setEstFavori] = useState(false);
+  const [favoriEnCours, setFavoriEnCours] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -20,8 +24,36 @@ export default function CommerceDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
+  useEffect(() => {
+    if (!user || user.role !== 'client') return;
+    api
+      .get('/favoris')
+      .then((res) => {
+        const trouve = res.data.favoris.some((f) => String(f.Commerce.id) === String(id));
+        setEstFavori(trouve);
+      })
+      .catch(() => {});
+  }, [user, id]);
+
+  async function toggleFavori() {
+    setFavoriEnCours(true);
+    try {
+      if (estFavori) {
+        await api.delete(`/favoris/${id}`);
+        setEstFavori(false);
+      } else {
+        await api.post(`/favoris/${id}`);
+        setEstFavori(true);
+      }
+    } catch (err) {
+      setErreur(err.response?.data?.message || 'Erreur lors de la mise à jour des favoris.');
+    } finally {
+      setFavoriEnCours(false);
+    }
+  }
+
   if (loading) return <p className="text-center text-gray-500 mt-16">Chargement...</p>;
-  if (erreur) return <p className="text-center text-red-600 mt-16">{erreur}</p>;
+  if (erreur && !commerce) return <p className="text-center text-red-600 mt-16">{erreur}</p>;
   if (!commerce) return null;
 
   return (
@@ -43,6 +75,20 @@ export default function CommerceDetailPage() {
           <p className="text-sm text-gray-600">{commerce.adresse}</p>
           <p className="text-sm text-gray-600">📞 {commerce.telephone}</p>
           <p className="text-sm text-gray-600">🕒 {commerce.horaires}</p>
+          {user?.role === 'client' && (
+            <button
+              onClick={toggleFavori}
+              disabled={favoriEnCours}
+              className={`mt-3 text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors ${
+                estFavori
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white text-primary border-primary'
+              } disabled:opacity-60`}
+            >
+              {estFavori ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}
+            </button>
+          )}
+          {erreur && <p className="text-red-600 text-xs mt-2">{erreur}</p>}
         </div>
       </div>
 
