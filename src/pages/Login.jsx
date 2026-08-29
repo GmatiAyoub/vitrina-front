@@ -25,7 +25,7 @@ export default function Login() {
 
   return (
     <div className="max-w-sm mx-auto mt-16 p-8 bg-white rounded-xl shadow-md">
-      <h1 className="text-xl font-semibold text-gray-800 mb-6">Connexion à Vitrina</h1>
+      <h1 className="text-xl font-display font-semibold text-ink mb-6">Connexion à Vitrina</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1.5 text-sm text-gray-700">
           Email

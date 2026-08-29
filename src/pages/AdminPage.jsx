@@ -52,7 +52,7 @@ export default function AdminPage() {
   return (
     <div className="max-w-5xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">Panneau d'administration</h1>
+        <h1 className="text-2xl font-display font-semibold text-ink">Panneau d'administration</h1>
         <Link to="/recherche" className="text-primary text-sm font-medium">
           ← Retour à la recherche
         </Link>

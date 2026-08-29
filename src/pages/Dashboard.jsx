@@ -9,7 +9,7 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-lg mx-auto mt-16 p-8 bg-white rounded-xl shadow-md">
-      <h1 className="text-xl font-semibold text-gray-800 mb-4">Bienvenue sur Vitrina</h1>
+      <h1 className="text-xl font-display font-semibold text-ink mb-4">Bienvenue sur Vitrina</h1>
       <p className="text-gray-600">Email : {user.email}</p>
       <p className="text-gray-600 mb-4">Rôle : {user.role}</p>
 

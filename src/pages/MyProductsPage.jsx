@@ -109,7 +109,7 @@ export default function MyProductsPage() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">Mes produits</h1>
+        <h1 className="text-2xl font-display font-semibold text-ink">Mes produits</h1>
         <div className="flex gap-4 items-center">
           <Link to="/mon-commerce" className="text-primary text-sm font-medium">
             ← Mon commerce
@@ -244,7 +244,7 @@ export default function MyProductsPage() {
             )}
             <div className="p-3">
               <h3 className="text-sm font-medium text-gray-800">{produit.nom}</h3>
-              <p className="text-primary font-bold text-sm mt-1">{produit.prix} DT</p>
+              <p className="text-accent font-bold text-sm mt-1">{produit.prix} DT</p>
               <span
                 className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
                   produit.disponibilite ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'

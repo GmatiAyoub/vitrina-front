@@ -10,11 +10,13 @@ import FavoritesPage from './pages/FavoritesPage';
 import AdminPage from './pages/AdminPage';
 import CommerceProfilePage from './pages/CommerceProfilePage';
 import MyProductsPage from './pages/MyProductsPage';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/recherche" replace />} />
 

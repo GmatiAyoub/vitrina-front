@@ -39,7 +39,7 @@ export default function FavoritesPage() {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">Mes favoris</h1>
+        <h1 className="text-2xl font-display font-semibold text-ink">Mes favoris</h1>
         <Link to="/recherche" className="text-primary text-sm font-medium">
           ← Retour à la recherche
         </Link>

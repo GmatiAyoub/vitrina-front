@@ -1,6 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #ff6b35;
-  --color-primary-dark: #e85a2a;
+  /* Palette "Souk Indigo" */
+  --color-primary: #1F3A5F;
+  --color-primary-dark: #16283D;
+  --color-accent: #C4622D;
+  --color-accent-dark: #A84F22;
+  --color-cream: #F7F1E6;
+  --color-ink: #16283D;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
 }

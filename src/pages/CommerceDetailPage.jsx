@@ -74,7 +74,7 @@ export default function CommerceDetailPage() {
           />
         )}
         <div>
-          <h1 className="text-2xl font-semibold text-gray-800 mb-2">{commerce.nom}</h1>
+          <h1 className="text-2xl font-display font-semibold text-ink mb-2">{commerce.nom}</h1>
           <p className="text-sm text-gray-600">📍 {commerce.adresse}</p>
           <p className="text-sm text-gray-600">📞 {commerce.telephone}</p>
           <p className="text-sm text-gray-600">🕒 {commerce.horaires}</p>
@@ -105,27 +105,30 @@ export default function CommerceDetailPage() {
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold text-gray-800 mb-3">Catalogue</h2>
+      <h2 className="text-lg font-display font-semibold text-ink mb-3">Catalogue</h2>
       {(!commerce.Produits || commerce.Produits.length === 0) && (
         <p className="text-gray-500 text-sm">Ce commerce n'a pas encore publié de produits.</p>
       )}
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4">
         {commerce.Produits?.map((produit) => (
-          <div key={produit.id} className="border border-gray-200 rounded-xl overflow-hidden bg-white">
-            {produit.photos?.[0] && (
-              <img
-                src={`http://localhost:4000${produit.photos[0]}`}
-                alt={produit.nom}
-                className="w-full h-35 object-cover"
-              />
-            )}
-            <h3 className="text-sm font-medium text-gray-800 mx-2.5 mt-2 mb-1">{produit.nom}</h3>
-            <p className="text-primary font-bold mx-2.5 mb-1 text-sm">{produit.prix} DT</p>
-            {produit.tailles && (
-              <p className="text-xs text-gray-500 mx-2.5 mb-2.5">Tailles : {produit.tailles}</p>
-            )}
-          </div>
+          <div
+  key={produit.id}
+  className="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-primary/40 transition-colors"
+>
+  {produit.photos?.[0] && (
+    <img
+      src={`http://localhost:4000${produit.photos[0]}`}
+      alt={produit.nom}
+      className="w-full h-35 object-cover"
+    />
+  )}
+  <h3 className="text-sm font-medium text-ink mx-2.5 mt-2 mb-1">{produit.nom}</h3>
+  <p className="text-accent font-bold mx-2.5 mb-1 text-sm">{produit.prix} DT</p>
+  {produit.tailles && (
+    <p className="text-xs text-gray-500 mx-2.5 mb-2.5">Tailles : {produit.tailles}</p>
+  )}
+</div>
         ))}
       </div>
     </div>

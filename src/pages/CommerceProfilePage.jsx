@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
+import { LOCALITES_MORNAG } from '../data/localitesMornag';
 
 export default function CommerceProfilePage() {
   const { user, loading: authLoading } = useAuth();
   const [commerce, setCommerce] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ nom: '', adresse: '', telephone: '', horaires: '' });
+  const [form, setForm] = useState({ nom: '', localite: '', rue: '', telephone: '', horaires: '' });
   const [photo, setPhoto] = useState(null);
   const [erreur, setErreur] = useState('');
   const [succes, setSucces] = useState('');
@@ -18,12 +19,16 @@ export default function CommerceProfilePage() {
     api
       .get('/commerces/me')
       .then((res) => {
-        setCommerce(res.data.commerce);
+        const c = res.data.commerce;
+        setCommerce(c);
+        const parties = c.adresse.split(',').map((p) => p.trim());
+        const localiteTrouvee = LOCALITES_MORNAG.find((l) => parties.includes(l));
         setForm({
-          nom: res.data.commerce.nom,
-          adresse: res.data.commerce.adresse,
-          telephone: res.data.commerce.telephone,
-          horaires: res.data.commerce.horaires,
+          nom: c.nom,
+          localite: localiteTrouvee || 'Mornag Centre',
+          rue: localiteTrouvee ? parties.filter((p) => p !== localiteTrouvee).join(', ') : c.adresse,
+          telephone: c.telephone,
+          horaires: c.horaires,
         });
       })
       .catch(() => setCommerce(null))
@@ -36,9 +41,11 @@ export default function CommerceProfilePage() {
     setSucces('');
     setEnvoi(true);
 
+    const adresseComplete = form.rue.trim() ? `${form.rue.trim()}, ${form.localite}` : form.localite;
+
     const data = new FormData();
     data.append('nom', form.nom);
-    data.append('adresse', form.adresse);
+    data.append('adresse', adresseComplete);
     data.append('telephone', form.telephone);
     data.append('horaires', form.horaires);
     if (photo) data.append('photo', photo);
@@ -54,7 +61,7 @@ export default function CommerceProfilePage() {
         setSucces('Commerce créé avec succès !');
       }
     } catch (err) {
-      setErreur(err.response?.data?.message || 'Erreur lors de l’enregistrement.');
+      setErreur(err.response?.data?.message || "Erreur lors de l'enregistrement.");
     } finally {
       setEnvoi(false);
     }
@@ -67,8 +74,8 @@ export default function CommerceProfilePage() {
   return (
     <div className="max-w-xl mx-auto p-6">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          {commerce ? 'Mon commerce' : 'Créer mon commerce'}
+        <h1 className="text-2xl font-display font-semibold text-ink">
+         {commerce ? 'Mon commerce' : 'Créer mon commerce'}
         </h1>
         <Link to="/dashboard" className="text-primary text-sm font-medium">
           ← Retour
@@ -96,13 +103,28 @@ export default function CommerceProfilePage() {
         </label>
 
         <label className="flex flex-col gap-1.5 text-sm text-gray-700">
-          Adresse
+          Localité (délégation de Mornag)
+          <select
+            required
+            value={form.localite}
+            onChange={(e) => setForm({ ...form, localite: e.target.value })}
+            className="px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white"
+          >
+            {LOCALITES_MORNAG.map((loc) => (
+              <option key={loc} value={loc}>
+                {loc}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1.5 text-sm text-gray-700">
+          Rue / précision (optionnel)
           <input
             type="text"
-            required
-            value={form.adresse}
-            onChange={(e) => setForm({ ...form, adresse: e.target.value })}
-            placeholder="ex: Avenue Habib Bourguiba, Mornag"
+            value={form.rue}
+            onChange={(e) => setForm({ ...form, rue: e.target.value })}
+            placeholder="ex: Avenue Habib Bourguiba, en face de la poste..."
             className="px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </label>

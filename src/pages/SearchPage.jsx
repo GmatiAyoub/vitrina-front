@@ -32,9 +32,9 @@ export default function SearchPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-xl font-semibold text-gray-800 mb-4">
-        Découvrir les commerces de Mornag
-      </h1>
+      <h1 className="text-2xl font-display font-semibold text-ink mb-4">
+  Découvrir les commerces de Mornag
+</h1>
 
       <form onSubmit={lancerRecherche} className="flex flex-col sm:flex-row gap-2.5 mb-6">
         <input
@@ -76,23 +76,23 @@ export default function SearchPage() {
       <div className="flex flex-col gap-3">
         {resultats.map((commerce) => (
           <div
-            key={commerce.id}
-            onClick={() => navigate(`/commerces/${commerce.id}`)}
-            className="bg-white border border-gray-200 rounded-xl p-4 cursor-pointer hover:shadow-md transition-shadow"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="font-medium text-gray-800">{commerce.nom}</h3>
-                <p className="text-sm text-gray-500 mt-0.5">{commerce.adresse}</p>
-                <p className="text-sm text-gray-500">📞 {commerce.telephone}</p>
-                <p className="text-sm text-gray-500">🕒 {commerce.horaires}</p>
-              </div>
-              {commerce.distance_km !== null && (
-                <span className="text-primary font-semibold text-sm whitespace-nowrap">
-                  📍 {commerce.distance_km} km
-                </span>
-              )}
-            </div>
+  key={commerce.id}
+  onClick={() => navigate(`/commerces/${commerce.id}`)}
+  className="bg-white border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-primary/40 hover:shadow-md transition-all"
+>
+  <div className="flex items-start justify-between gap-3">
+    <div>
+      <h3 className="font-medium text-ink">{commerce.nom}</h3>
+      <p className="text-sm text-gray-500 mt-0.5">{commerce.adresse}</p>
+      <p className="text-sm text-gray-500">📞 {commerce.telephone}</p>
+      <p className="text-sm text-gray-500">🕒 {commerce.horaires}</p>
+    </div>
+    {commerce.distance_km !== null && (
+      <span className="bg-cream text-primary font-semibold text-xs whitespace-nowrap px-2.5 py-1 rounded-full">
+        📍 {commerce.distance_km} km
+      </span>
+    )}
+  </div>
             <p className="text-xs text-gray-400 mt-2">
               {commerce.Produits?.length || 0} produit(s) trouvé(s)
             </p>
