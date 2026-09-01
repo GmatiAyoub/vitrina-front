@@ -1,6 +1,8 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
+import HomePage from './pages/HomePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -10,7 +12,6 @@ import FavoritesPage from './pages/FavoritesPage';
 import AdminPage from './pages/AdminPage';
 import CommerceProfilePage from './pages/CommerceProfilePage';
 import MyProductsPage from './pages/MyProductsPage';
-import Navbar from './components/Navbar';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
       <AuthProvider>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Navigate to="/recherche" replace />} />
+          <Route path="/" element={<HomePage />} />
 
           <Route path="/recherche" element={<SearchPage />} />
           <Route path="/commerces/:id" element={<CommerceDetailPage />} />
@@ -26,47 +27,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/favoris"
-            element={
-              <ProtectedRoute allowedRoles={['client']}>
-                <FavoritesPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/mon-commerce"
-            element={
-              <ProtectedRoute allowedRoles={['commercant']}>
-                <CommerceProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/mes-produits"
-            element={
-              <ProtectedRoute allowedRoles={['commercant']}>
-                <MyProductsPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/favoris" element={<ProtectedRoute allowedRoles={['client']}><FavoritesPage /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminPage /></ProtectedRoute>} />
+          <Route path="/mon-commerce" element={<ProtectedRoute allowedRoles={['commercant']}><CommerceProfilePage /></ProtectedRoute>} />
+          <Route path="/mes-produits" element={<ProtectedRoute allowedRoles={['commercant']}><MyProductsPage /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
